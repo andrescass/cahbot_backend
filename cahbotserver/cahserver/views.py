@@ -61,9 +61,9 @@ def black_card_random_list(request, n):
     if request.method == 'GET':
         try:
             bcList = BlackCard.objects.all()
-            random_bcList = sample(list(bcList), int(n))
-            if n >= len(list(bcList)):
+            if int(n) >= len(list(bcList)):
                 n = len(list(bcList))
+            random_bcList = sample(list(bcList), int(n))
             bc_serializer = BlackCardSerializer(random_bcList, many=True)
             response = {
                 'message': "Get all black cards succefully",
@@ -129,7 +129,7 @@ def white_card_random_list(request, n):
     if request.method == 'GET':
         try:
             wcList = WhiteCard.objects.all()
-            if n >= len(list(wcList)):
+            if int(n) >= len(list(wcList)):
                 n = len(list(wcList))
             random_wcList = sample(list(wcList), int(n))
             wc_serializer = WhiteCardSerializer(random_wcList, many=True)
