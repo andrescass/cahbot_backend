@@ -62,6 +62,8 @@ def black_card_random_list(request, n):
         try:
             bcList = BlackCard.objects.all()
             random_bcList = sample(list(bcList), int(n))
+            if n >= len(list(bcList)):
+                n = len(list(bcList))
             bc_serializer = BlackCardSerializer(random_bcList, many=True)
             response = {
                 'message': "Get all black cards succefully",
@@ -127,6 +129,8 @@ def white_card_random_list(request, n):
     if request.method == 'GET':
         try:
             wcList = WhiteCard.objects.all()
+            if n >= len(list(wcList)):
+                n = len(list(wcList))
             random_wcList = sample(list(wcList), int(n))
             wc_serializer = WhiteCardSerializer(random_wcList, many=True)
             response = {
@@ -139,6 +143,27 @@ def white_card_random_list(request, n):
             print(ex)
             error = {
                 'message': "Fail! -> can NOT get all the cards. Please check again!",
+                'white_cards': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_cards(request, keyword):
+    if request.method == 'DELETE':
+        try:
+            if keyword == "whitecards":
+                count = WhiteCard.objects.all().delete()
+                return JsonResponse({'message': '{} white cards were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+            elif keyword == "blackcards":
+                count = BlackCard.objects.all().delete()
+                return JsonResponse({'message': '{} black cards were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+            else:
+                return JsonResponse({'message': 'Bad keyword'}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the cards. Please check again!",
                 'white_cards': "[]",
                 'error': "Error"
             }

@@ -13,4 +13,5 @@ urlpatterns = [
     url('api/score_entries/', csrf_exempt(views.score_entries)),
     path('api/group_table/<pk>', csrf_exempt(views.group_table)),
     path('api/player_table/<pk>', csrf_exempt(views.player_table)),
+    path('api/delete_cards/<keyword>', csrf_exempt(views.delete_cards)),
 ]

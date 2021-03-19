@@ -1,0 +1,69 @@
+- Obtener todas las cartas negras
+server/api/bc/
+
+- Cargar nueva carta negra:
+POST a server/api/bc/
+{
+    "phrase" : frase,
+}
+
+- Obtener n cartas negras aleatorias
+server/api/randombc/n
+
+- Obtener todas las cartas blancas
+server/api/wc/
+
+- Obtener n cartas negras aleatorias
+server/api/randomwc/n
+
+- Cargar nueva carta blanca:
+POST a server/api/wc/
+{
+    "phrase" : frase,
+}
+
+********** Grupos *************
+- Obtener todos los Grupos
+server/api/gamegroups/
+
+- Crear nuevo Grupo
+POST a server/api/gamegroups/
+{
+    "group_id" : telegram group id,
+}
+
+- Obtener los puntos acumulados de un Grupo
+server/api/group_table/<group_id>
+
+********* Players ***********
+- Obtener todos los players
+server/api/players/
+
+- Crear nuevo player
+POST a server/api/gamegroups/
+{
+    "player_id" : telegram player id,
+    "name" : telegram player name,
+    "total_matchs" : 5, 
+    "total_points" : 4,
+    "total_wons" : 1
+}
+
+- Obtener los puntos acumulados de un player
+server/api/player_table/<player_id>
+
+********* Score entry ************
+- Obtener todas las score entries
+server/api/score_entries/
+
+- Crear una nueva o actualizar una score entry (actualiza también los puntos acumulados del jugador y la cantidad de partidas del grupo)
+POST a server/api/score_entries/
+
+{
+    'player_id' : telegram player id,
+    'player_name' : telegram player name,
+    'group_id' : telegram group id,
+    'score' : '2',
+    'matchs_won': '1',  // 1 si el jugador ganó la partida, 0 si no
+    'matchs_played' : '1' // este siempre va a ser uno si la idea es actualizar el sever después de cada partida
+}
