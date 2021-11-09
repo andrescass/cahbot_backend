@@ -418,10 +418,10 @@ def movie_list(request):
         try:
             
             movieData = JSONParser().parse(request)
-            movie_serialized = FestMovieSerializer(data=movieData)
-            if movie_serialized.is_valid():
-                movie_serialized.save()
-                return JsonResponse(movie_serialized.data, status=status.HTTP_201_CREATED)
+            movie_serializer = FestMovieSerializer(data=movieData)
+            if movie_serializer.is_valid():
+                movie_serializer.save()
+                return JsonResponse(movie_serializer.data, status=status.HTTP_201_CREATED)
             else:
                 error = {
                     'message':"Can Not upload successfully!",
