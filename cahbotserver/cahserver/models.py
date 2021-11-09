@@ -56,7 +56,7 @@ class FestMovie(models.Model):
     competition = models.CharField(max_length=150, blank=False, default=' ')
     date = models.CharField(max_length=150, blank=False, default='')
     sala = models.CharField(max_length=150, blank=False, default='')
-    isOnline = models.BooleanField(blanck = False, default='False')
+    isOnline = models.BooleanField(blank = False, default='False')
 
 class WListEntry(models.Model):
     id = models.AutoField(primary_key = True)
