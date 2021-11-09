@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from random import sample
 
-from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry
-from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer
+from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry
+from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer
 
 # Create your views here.
 
@@ -381,6 +381,122 @@ def player_table(request, pk):
         else:
             response = {
                 'message': "No score entries for this player",
+                'error': 'No entries yet'
+            }
+            return JsonResponse(response, safe=False)
+    except Exception as ex:
+        print(ex)
+        exceptionError = {
+            'message': "Can Not get entries!",
+            'cards': "[]",
+            'error': "Having an exception!"
+            }
+        return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+######################### FESTIVALES #################################
+@api_view(['GET', 'POST'])
+def movie_list(request):
+    if request.method == 'GET':
+        try:
+            movieList = FestMovie.objects.all()
+            movie_serializer = FestMovieSerializer(movieList, many=True)
+            response = {
+                'message': "Get all movies succefully",
+                'movies': movie_serializer.data,
+                'error': ''
+            }
+            return JsonResponse(movie_serializer.data, safe=False)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT get all the movies. Please check again!",
+                'movies': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    elif request.method == 'POST':
+        try:
+            
+            movieData = JSONParser().parse(request)
+            movie_serialized = FestMovieSerializer(data=movieData)
+            if movie_serialized.is_valid():
+                movie_serialized.save()
+                return JsonResponse(movie_serialized.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'movies':"[]",
+                    'error': movie_serializer.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'movies': "[]",
+                'error': "Having an exception!"
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET', 'POST'])
+def wlist_list(request):
+    if request.method == 'GET':
+        try:
+            wlistList = WListEntry.objects.all()
+            wlist_serializer = WListEntrySerializer(wlistList, many=True)
+            response = {
+                'message': "Get all wlists succefully",
+                'wlists': wlist_serializer.data,
+                'error': ''
+            }
+            return JsonResponse(wlist_serializer.data, safe=False)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT get all the wlists. Please check again!",
+                'wlits': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    elif request.method == 'POST':
+        try:
+            
+            wlistData = JSONParser().parse(request)
+            wlist_serialized = WListEntrySerializer(data=wlistData)
+            if wlist_serialized.is_valid():
+                wlist_serialized.save()
+                return JsonResponse(wlist_serialized.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'wlits':"[]",
+                    'error': wlist_serializer.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'wlists': "[]",
+                'error': "Having an exception!"
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def user_wlist(request, pk):
+    try:
+        if WListEntry.objects.filter(user_id=pk).exists():
+            wlist = WListEntry.objects.get(user_id=pk)
+            wlist_serializer = WListEntrySerializer(wlist, many=True)
+            response = {
+                'message': "Get all entries succefully",
+                'wlist': wlist_serializer.data,
+                'error': ''
+            }
+            return JsonResponse(wlist_serializer.data, safe=False)
+        else:
+            response = {
+                'message': "No entries for this user",
                 'error': 'No entries yet'
             }
             return JsonResponse(response, safe=False)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry
+from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry
 
 class BlackCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,3 +46,23 @@ class ScoreEntrySerializer(serializers.ModelSerializer):
                 "required": False,
             },
         }
+
+######################### FESTIVALES #################################
+
+class FestMovieSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = FestMovie
+        fields = ('id',
+        'movie_name',
+        'movie_director',
+        'competition',
+        'date',
+        'sala',
+        'isOnline')
+
+class WListEntrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WListEntry
+        fields = ('id',
+        'movie_id',
+        'user_id')

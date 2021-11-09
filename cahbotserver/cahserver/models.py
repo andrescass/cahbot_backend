@@ -47,3 +47,18 @@ class ScoreEntry(models.Model):
         return "{0} : {1}".format(self.group_id, self.player_id)
 
 
+######################### FESTIVALES #################################
+
+class FestMovie(models.Model):
+    id = models.AutoField(primary_key = True)
+    movie_name = models.CharField(max_length=300, blank=False, default='movie name')
+    movie_director = models.CharField(max_length=150, blank=False, default='movie director')
+    competition = models.CharField(max_length=150, blank=False, default=' ')
+    date = models.CharField(max_length=150, blank=False, default='')
+    sala = models.CharField(max_length=150, blank=False, default='')
+    isOnline = models.BooleanField(blanck = False, default='False')
+
+class WListEntry(models.Model):
+    id = models.AutoField(primary_key = True)
+    movie_id = models.IntegerField(blank=False, default=1)
+    user_id = models.IntegerField(blank=False, default=1)

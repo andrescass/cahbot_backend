@@ -14,4 +14,7 @@ urlpatterns = [
     path('api/group_table/<pk>', csrf_exempt(views.group_table)),
     path('api/player_table/<pk>', csrf_exempt(views.player_table)),
     path('api/delete_cards/<keyword>', csrf_exempt(views.delete_cards)),
+    url('api/fest_movies/', csrf_exempt(views.movie_list)),
+    url('api/watch_lists/', csrf_exempt(views.wlist_list)),
+    path('api/user_wlist/<pk>', csrf_exempt(views.user_wlist)),
 ]

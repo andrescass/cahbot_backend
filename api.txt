@@ -67,3 +67,8 @@ POST a server/api/score_entries/
     'matchs_won': '1',  // 1 si el jugador ganó la partida, 0 si no
     'matchs_played' : '1' // este siempre va a ser uno si la idea es actualizar el sever después de cada partida
 }
+
+*************************** Festivals ******************************
+api/fest_movies/
+api/watch_lists/
+api/user_wlist/<pk>
