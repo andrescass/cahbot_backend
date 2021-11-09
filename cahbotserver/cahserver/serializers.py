@@ -55,6 +55,8 @@ class FestMovieSerializer(serializers.ModelSerializer):
         fields = ('id',
         'movie_name',
         'movie_director',
+        'movie_country',
+        'movie_year',
         'competition',
         'date',
         'sala',
