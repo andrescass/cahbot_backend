@@ -57,6 +57,7 @@ class FestMovieSerializer(serializers.ModelSerializer):
         'movie_director',
         'movie_country',
         'movie_year',
+        'movie_duration',
         'competition',
         'date',
         'sala',

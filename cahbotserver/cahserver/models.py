@@ -55,6 +55,7 @@ class FestMovie(models.Model):
     movie_director = models.CharField(max_length=150, blank=False, default='movie director')
     movie_country = models.CharField(max_length=150, blank=False, default='movie country')
     movie_year = models.IntegerField(blank=False, default=2021)
+    movie_duration = models.IntegerField(blank=False, default=0)
     competition = models.CharField(max_length=150, blank=False, default=' ')
     date = models.CharField(max_length=150, blank=True, default='')
     sala = models.CharField(max_length=150, blank=True, default='')
