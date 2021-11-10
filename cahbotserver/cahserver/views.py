@@ -486,7 +486,7 @@ def wlist_list(request):
 def user_wlist(request, pk):
     try:
         if WListEntry.objects.filter(user_id=pk).exists():
-            wlist = WListEntry.objects.get(user_id=pk)
+            wlist = WListEntry.objects.filter(user_id=pk)
             wlist_serializer = WListEntrySerializer(wlist, many=True)
             response = {
                 'message': "Get all entries succefully",
