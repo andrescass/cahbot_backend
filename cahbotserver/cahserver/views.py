@@ -478,7 +478,7 @@ def wlist_list(request):
             exceptionError = {
                 'message': "Can Not upload successfully!",
                 'wlists': "[]",
-                'error': "Having an exception! " + ex
+                'error': "Having an exception! " + repr(ex)
                 }
             return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
