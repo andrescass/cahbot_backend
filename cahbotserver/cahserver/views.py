@@ -505,6 +505,6 @@ def user_wlist(request, pk):
         exceptionError = {
             'message': "Can Not get entries!",
             'cards': "[]",
-            'error': "Having an exception!"
+            'error': "Having an exception!" + repr(ex)
             }
         return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
