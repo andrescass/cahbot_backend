@@ -19,4 +19,5 @@ urlpatterns = [
     path('api/user_wlist/<pk>', csrf_exempt(views.user_wlist)),
     path('api/user_wlist/delete/<pk>', csrf_exempt(views.delete_cite)),
     path('api/fest_movie/delete/<pk>', csrf_exempt(views.delete_movie)),
+    path('api/user_wlist_seen/<pk>', csrf_exempt(views.set_seen)),
 ]

@@ -540,3 +540,21 @@ def delete_movie(request, pk):
                 'error': "Error" + + repr(ex)
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['PUT'])
+def set_seen(request, pk):
+    if request.method == 'DELETE':
+        try:
+            wl = WListEntry.objects.get(id=pk)
+            wl_ser = WListEntrySerializer(wl, data=request.data)
+            if wl.is_valid():
+                wl.save()
+                return JsonResponse('Updated')
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the cards. Please check again!",
+                'white_cards': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
