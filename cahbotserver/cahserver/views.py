@@ -546,8 +546,7 @@ def set_seen(request, pk):
     if request.method == 'PUT':
         try:
             wl = WListEntry.objects.get(id=pk)
-            wlist = JSONParser().parse(request)
-            wl_ser = WListEntrySerializer(wl, data=wlist)
+            wl_ser = WListEntrySerializer(data=request.data)
             if wl_ser.is_valid():
                 wl_ser.save()
                 return JsonResponse('Updated')
