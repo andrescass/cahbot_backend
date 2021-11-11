@@ -543,7 +543,7 @@ def delete_movie(request, pk):
 
 @api_view(['PUT'])
 def set_seen(request, pk):
-    if request.method == 'DELETE':
+    if request.method == 'PUT':
         try:
             wl = WListEntry.objects.get(id=pk)
             wl_ser = WListEntrySerializer(wl, data=request.data)
@@ -560,3 +560,5 @@ def set_seen(request, pk):
                 'error': "Error"
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
