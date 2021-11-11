@@ -508,3 +508,19 @@ def user_wlist(request, pk):
             'error': "Having an exception!" + repr(ex)
             }
         return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_cite(request, pk):
+    if request.method == 'DELETE':
+        try:
+            if WListEntry.objects.filter(id=pk).ex():
+                count = WListEntry.objects.get(id=pk).delete()
+            return JsonResponse({'message': '{} white cards were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the cards. Please check again!",
+                'white_cards': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -65,3 +65,4 @@ class WListEntry(models.Model):
     id = models.AutoField(primary_key = True)
     movie_id = models.IntegerField(blank=False, default=1)
     user_id = models.IntegerField(blank=False, default=1)
+    seen = models.BooleanField(blank = False, default='False')
