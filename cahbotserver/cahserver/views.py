@@ -513,7 +513,7 @@ def user_wlist(request, pk):
 def delete_cite(request, pk):
     if request.method == 'DELETE':
         try:
-            if WListEntry.objects.filter(id=pk).ex():
+            if WListEntry.objects.filter(id=pk).exists():
                 count = WListEntry.objects.get(id=pk).delete()
             return JsonResponse({'message': '{} white cards were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
         except Exception as ex:
