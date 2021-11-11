@@ -537,6 +537,6 @@ def delete_movie(request, pk):
             error = {
                 'message': "Fail! -> can NOT delete the cards. Please check again!",
                 'white_cards': "[]",
-                'error': "Error"
+                'error': "Error" + + repr(ex)
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
