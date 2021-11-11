@@ -547,17 +547,17 @@ def set_seen(request, pk):
         try:
             wl = WListEntry.objects.get(id=pk)
             wl_ser = WListEntrySerializer(wl, data=request.data)
-            if wl.is_valid():
-                wl.save()
+            if wl_ser.is_valid():
+                wl_ser.save()
                 return JsonResponse('Updated')
             else:
                 return JsonResponse('Not Updated')
         except Exception as ex:
             print(ex)
             error = {
-                'message': "Fail! -> can NOT delete the cards. Please check again!",
+                'message': "Fail!",
                 'white_cards': "[]",
-                'error': "Error"
+                'error': "Error" + repr(ex)
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
