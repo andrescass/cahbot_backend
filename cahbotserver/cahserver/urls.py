@@ -18,5 +18,5 @@ urlpatterns = [
     url('api/watch_lists/', csrf_exempt(views.wlist_list)),
     path('api/user_wlist/<pk>', csrf_exempt(views.user_wlist)),
     path('api/user_wlist/delete/<pk>', csrf_exempt(views.delete_cite)),
-    path('api/fest_movie/delete/<pk>', csrf_exempt(views.delete_cite)),
+    path('api/fest_movie/delete/<pk>', csrf_exempt(views.delete_movie)),
 ]
