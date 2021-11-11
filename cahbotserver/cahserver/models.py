@@ -60,6 +60,7 @@ class FestMovie(models.Model):
     date = models.CharField(max_length=150, blank=True, default='')
     sala = models.CharField(max_length=150, blank=True, default='')
     isOnline = models.BooleanField(blank = False, default='False')
+    isCalos = models.BooleanField(blank = False, default='False')
 
 class WListEntry(models.Model):
     id = models.AutoField(primary_key = True)
