@@ -546,12 +546,9 @@ def set_seen(request, pk):
     if request.method == 'PUT':
         try:
             wl = WListEntry.objects.get(id=pk)
-            wl_ser = WListEntrySerializer(data=request.data)
-            if wl_ser.is_valid():
-                wl_ser.save()
-                return JsonResponse('Updated')
-            else:
-                return JsonResponse('Not Updated')
+            wl.seen = 'Si'
+            wl.save()
+            return JsonResponse('Updated')
         except Exception as ex:
             print(ex)
             error = {
@@ -562,3 +559,17 @@ def set_seen(request, pk):
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
         return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_movies(request):
+    if request.method == 'DELETE':
+        try:
+            count = FestMovie.objects.all().delete()
+            return JsonResponse({'message': '{} movies were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            error = {
+                'message': "Fail! -> can NOT delete the movies",
+                'white_cards': "[]",
+                'error': "Error" + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
