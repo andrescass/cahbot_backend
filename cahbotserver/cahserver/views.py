@@ -548,7 +548,7 @@ def set_seen(request, pk):
             wl = WListEntry.objects.get(id=pk)
             wl.seen = 'Si'
             wl.save()
-            return JsonResponse('Updated')
+            return JsonResponse('Updated', safe=False)
         except Exception as ex:
             print(ex)
             error = {
