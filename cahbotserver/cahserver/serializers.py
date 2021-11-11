@@ -61,11 +61,13 @@ class FestMovieSerializer(serializers.ModelSerializer):
         'competition',
         'date',
         'sala',
-        'isOnline')
+        'isOnline',
+        'isCalos')
 
 class WListEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = WListEntry
         fields = ('id',
         'movie_id',
-        'user_id')
+        'user_id',
+        'seen')
