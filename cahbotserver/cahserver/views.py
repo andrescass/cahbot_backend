@@ -499,7 +499,7 @@ def user_wlist(request, pk):
                 'message': "No entries for this user",
                 'error': 'No entries yet'
             }
-            return JsonResponse(response, safe=False)
+            return JsonResponse(response, status=status.HTTP_400_BAD_REQUEST)
     except Exception as ex:
         print(ex)
         exceptionError = {
