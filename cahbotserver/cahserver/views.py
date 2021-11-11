@@ -524,3 +524,19 @@ def delete_cite(request, pk):
                 'error': "Error"
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_movie(request, pk):
+    if request.method == 'DELETE':
+        try:
+            if FestMovie.objects.filter(id=pk).exists():
+                count = FestMovie.objects.get(id=pk).delete()
+            return JsonResponse({'message': '{} white cards were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the cards. Please check again!",
+                'white_cards': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
