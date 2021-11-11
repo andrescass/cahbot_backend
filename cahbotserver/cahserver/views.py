@@ -550,6 +550,8 @@ def set_seen(request, pk):
             if wl.is_valid():
                 wl.save()
                 return JsonResponse('Updated')
+            else:
+                return JsonResponse('Not Updated')
         except Exception as ex:
             print(ex)
             error = {
