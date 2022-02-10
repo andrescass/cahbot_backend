@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from random import sample
 
-from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry
-from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer
+from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry
+from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer, OscarEntrySereializer
 
 # Create your views here.
 
@@ -571,5 +571,34 @@ def delete_movies(request):
                 'message': "Fail! -> can NOT delete the movies",
                 'white_cards': "[]",
                 'error': "Error" + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+################### Oscalos ###################
+
+@api_view(['GET', 'POST'])
+def oscalo_entry(request, mail):
+    if request.method == 'GET':
+        try:
+            email_exists = OscarEntry.objects.filter(email=email).exists()
+            if email_exists:
+                response = {
+                    'message': "Get all wlists succefully",
+                    'exists': 'yes',
+                    'error': ''
+                }
+            else:
+                response = {
+                    'message': "Get all wlists succefully",
+                    'exists': 'no',
+                    'error': ''
+                }
+            return JsonResponse(response, safe=False)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT access to server. Please check again!",
+                'error': "Error"
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

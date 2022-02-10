@@ -67,3 +67,11 @@ class WListEntry(models.Model):
     movie_id = models.IntegerField(blank=False, default=1)
     user_id = models.IntegerField(blank=False, default=1)
     seen = models.CharField(max_length=150, blank=True, default='No')
+
+######################### OSCALOS #################################
+
+class OscarEntry(models.Model):
+    id = models.AutoField(primary_key = True)
+    email = models.CharField(max_length=300, blank=False)
+    name = models.CharField(max_length=300, blank=False)
+    selectedOptions = models.CharField(max_length=2000, blank=False)

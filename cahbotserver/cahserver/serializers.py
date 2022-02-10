@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry
+from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry
 
 class BlackCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,3 +71,9 @@ class WListEntrySerializer(serializers.ModelSerializer):
         'movie_id',
         'user_id',
         'seen')
+
+class OscarEntrySereializer(serializers.ModelSerializer):
+    class Meta:
+        model = OscarEntry
+        fields = '__all__'
+
