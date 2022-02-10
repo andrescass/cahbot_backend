@@ -21,5 +21,5 @@ urlpatterns = [
     path('api/fest_movie/delete/<pk>', csrf_exempt(views.delete_movie)),
     path('api/user_wlist_seen/<pk>', csrf_exempt(views.set_seen)),
     url('api/fest_movies_del/delete_movies/', csrf_exempt(views.delete_movies)),
-    path('api/user_wlist/mail>', csrf_exempt(views.oscalo_entry)),
+    path('api/oscalo/mail>', csrf_exempt(views.oscalo_entry)),
 ]
