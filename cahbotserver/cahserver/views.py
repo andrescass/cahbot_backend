@@ -578,10 +578,11 @@ def delete_movies(request):
 ################### Oscalos ###################
 
 @api_view(['GET', 'POST'])
-def oscalo_entry(request, mail):
-    if request.method == 'GET':
+def check_oscalo(request):
+    if request.method == 'POST':
         try:
-            email_exists = OscarEntry.objects.filter(email=email).exists()
+            data_oscar = JSONParser().parse(request)
+            email_exists = OscarEntry.objects.filter(email=data_oscar['email']).exists()
             if email_exists:
                 response = {
                     'message': "Get all wlists succefully",
