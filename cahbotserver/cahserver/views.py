@@ -600,6 +600,6 @@ def check_oscalo(request):
             print(ex)
             error = {
                 'message': "Fail! -> can NOT access to server. Please check again!",
-                'error': "Error"
+                'error': "Error" + repr(ex)
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
