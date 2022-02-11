@@ -595,7 +595,7 @@ def check_oscalo(request):
                     'exists': 'no',
                     'error': ''
                 }
-            return JsonResponse(response, safe=False)
+            return JsonResponse(response, status=status.HTTP_201_CREATED)
         except Exception as ex:
             print(ex)
             error = {
