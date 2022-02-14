@@ -603,3 +603,9 @@ def check_oscalo(request):
                 'error': "Error" + repr(ex)
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    elif request.method == 'GET':
+        response = {
+                    'message': "Esto no tiene GET",
+                    'error': ''
+                }
+        return JsonResponse(response, safe=False)
