@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/user_wlist_seen/<pk>', csrf_exempt(views.set_seen)),
     url('api/fest_movies_del/delete_movies/', csrf_exempt(views.delete_movies)),
     url(r'^api/oscalo/check$', csrf_exempt(views.check_oscalo)),
+    url(r'^api/oscalo/newoscalo$', csrf_exempt(views.create_oscalo)),
 ]

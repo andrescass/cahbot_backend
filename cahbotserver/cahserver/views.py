@@ -609,3 +609,28 @@ def check_oscalo(request):
                     'error': ''
                 }
         return JsonResponse(response, safe=False)
+
+@api_view(['POST'])
+def create_oscalo(request):
+    if request.method == 'POST':
+        try: 
+            oscalo = JSONParser().parse(request)
+            oscalo_serialized = OscarEntrySereializer(data=oscalo)
+            if oscalo_serialized.is_valid():
+                oscalo_serialized.save()
+                return JsonResponse(oscalo_serialized.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'wlits':"[]",
+                    'error': oscalo_serialized.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'wlists': "[]",
+                'error': "Having an exception! " + repr(ex)
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
