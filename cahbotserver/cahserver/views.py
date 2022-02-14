@@ -586,13 +586,13 @@ def check_oscalo(request):
             if email_exists:
                 response = {
                     'message': "Get all wlists succefully",
-                    'exists': 'yes',
+                    'exists': True,
                     'error': ''
                 }
             else:
                 response = {
                     'message': "Get all wlists succefully",
-                    'exists': 'no',
+                    'exists': False,
                     'error': ''
                 }
             return JsonResponse(response, status=status.HTTP_201_CREATED)
@@ -604,11 +604,14 @@ def check_oscalo(request):
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     elif request.method == 'GET':
+        oscaloList = OscarEntry.objects.all()
+        oscalo_serializer = OscarEntrySereializer(oscaloList, many=True)
         response = {
-                    'message': "Esto no tiene GET",
-                    'error': ''
-                }
-        return JsonResponse(response, safe=False)
+            'message': "Get all oscalos succefully",
+            'wlists': oscalo_serializer.data,
+            'error': ''
+        }
+        return JsonResponse(oscalo_serializer.data, safe=False)
 
 @api_view(['POST'])
 def create_oscalo(request):
