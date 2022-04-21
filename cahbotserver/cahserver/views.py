@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from random import sample
 
-from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry
-from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer, OscarEntrySereializer
+from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry, MmamEntry
+from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer, OscarEntrySereializer, MmamEntrySereializer
 
 # Create your views here.
 
@@ -649,6 +649,85 @@ def delete_oscalo(request, pk):
             print(ex)
             error = {
                 'message': "Fail! -> can NOT delete the cards. Please check again!",
+                'white_cards': "[]",
+                'error': "Error" + + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+######################### MAMM #######################
+
+@api_view(['GET', 'POST'])
+def check_mam(request):
+    if request.method == 'POST':
+        try:
+            data_mam = JSONParser().parse(request)
+            email_exists = MmamEntry.objects.filter(email=data_mam['email']).exists()
+            if email_exists:
+                response = {
+                    'message': "Email already registered",
+                    'exists': True,
+                    'error': ''
+                }
+            else:
+                response = {
+                    'message': "Email not registered",
+                    'exists': False,
+                    'error': ''
+                }
+            return JsonResponse(response, status=status.HTTP_201_CREATED)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT access to server. Please check again!",
+                'error': "Error" + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    elif request.method == 'GET':
+        mamList = MmamEntry.objects.all()
+        mam_serializer = MmamEntrySereializer(mamList, many=True)
+        response = {
+            'message': "Get all mam succefully",
+            'wlists': mam_serializer.data,
+            'error': ''
+        }
+        return JsonResponse(mam_serializer.data, safe=False)
+
+@api_view(['POST'])
+def create_mam(request):
+    if request.method == 'POST':
+        try: 
+            mam = JSONParser().parse(request)
+            mam_serialized = MmamEntrySereializer(data=mam)
+            if mam_serialized.is_valid():
+                mam_serialized.save()
+                return JsonResponse(mam_serialized.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'wlits':"[]",
+                    'error': mam_serialized.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'wlists': "[]",
+                'error': "Having an exception! " + repr(ex)
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_mam(request, pk):
+    if request.method == 'DELETE':
+        try:
+            if MmamEntry.objects.filter(id=pk).exists():
+                count = MmamEntry.objects.get(id=pk).delete()
+            return JsonResponse({'message': '{} entries were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the entry. Please check again!",
                 'white_cards': "[]",
                 'error': "Error" + + repr(ex)
             }

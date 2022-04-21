@@ -75,3 +75,11 @@ class OscarEntry(models.Model):
     email = models.CharField(max_length=300, unique=True, blank=False)
     name = models.CharField(max_length=300, blank=False)
     selectedOptions = models.CharField(max_length=2000, blank=False)
+
+####################### MIRALAS ANTES DE MORIR ######################
+
+class MmamEntry(models.Model):
+    id = models.AutoField(primary_key = True)
+    email = models.CharField(max_length=300, unique=True, blank=False)
+    name = models.CharField(max_length=300, blank=False)
+    selectedOptions = models.CharField(max_length=2000, blank=False)
