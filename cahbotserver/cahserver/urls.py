@@ -25,6 +25,6 @@ urlpatterns = [
     url(r'^api/oscalo/newoscalo$', csrf_exempt(views.create_oscalo)),
     path('api/oscalo/delete_oscalo/<pk>', csrf_exempt(views.delete_oscalo)),
     url(r'^api/mam/check$', csrf_exempt(views.check_mam)),
-    url(r'^api/mam/newoscalo$', csrf_exempt(views.create_mam)),
-    path('api/mam/delete_oscalo/<pk>', csrf_exempt(views.delete_mam)),
+    url(r'^api/mam/newmam$', csrf_exempt(views.create_mam)),
+    path('api/mam/delete_mam/<pk>', csrf_exempt(views.delete_mam)),
 ]
