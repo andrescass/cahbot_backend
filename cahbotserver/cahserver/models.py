@@ -84,12 +84,12 @@ class MmamEntry(models.Model):
     name = models.CharField(max_length=300, blank=False)
     selectedOptions = models.CharField(max_length=2000, blank=False)
 
-class MamColaborator(model.Model):
+class MamColaborator(models.Model):
     id = models.AutoField(primary_key = True)
     name = models.CharField(max_length=300, unique=True, blank=False)
     mail = models.CharField(max_length=300, unique=True, blank=False)
 
-class MamComment(model.Model):
+class MamComment(models.Model):
     id = models.AutoField(primary_key = True)
     text = models.CharField(max_length=2000, blank=True)
     autor = models.ForeignKey(MamColaborator, related_name='comment', on_delete=models.CASCADE)
