@@ -89,6 +89,9 @@ class MamColaborator(models.Model):
     name = models.CharField(max_length=300, unique=True, blank=False)
     mail = models.CharField(max_length=300, unique=True, blank=False)
 
+    def __str__(self):
+        return f'{self.name}'
+
 class MamMovie(models.Model):
     imdb_id = models.CharField(max_length=30, primary_key=True, unique=True, blank=False)
     rank = models.IntegerField(blank=False, default=1)
