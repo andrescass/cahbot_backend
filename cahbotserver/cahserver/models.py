@@ -89,14 +89,14 @@ class MamColaborator(models.Model):
     name = models.CharField(max_length=300, unique=True, blank=False)
     mail = models.CharField(max_length=300, unique=True, blank=False)
 
-class MamComment(models.Model):
-    id = models.AutoField(primary_key = True)
-    text = models.CharField(max_length=2000, blank=True)
-    autor = models.ForeignKey(MamColaborator, related_name='comment', on_delete=models.CASCADE)
-    movie = models.ForeignKey(MamMovie, related_name='review', on_delete=models.CASCADE)
-
 class MamMovie(models.Model):
     imdb_id = models.CharField(max_length=30, primary_key=True, unique=True, blank=False)
     rank = models.IntegerField(blank=False, default=1)
     points = models.IntegerField(blank=False, default=1)
     mentions = models.ManyToManyField(MamColaborator)
+
+class MamComment(models.Model):
+    id = models.AutoField(primary_key = True)
+    text = models.CharField(max_length=2000, blank=True)
+    autor = models.ForeignKey(MamColaborator, related_name='comment', on_delete=models.CASCADE)
+    movie = models.ForeignKey(MamMovie, related_name='review', on_delete=models.CASCADE)
