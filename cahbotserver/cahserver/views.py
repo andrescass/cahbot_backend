@@ -6,8 +6,9 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from random import sample
 
-from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry, MmamEntry
+from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry, MmamEntry, MamColaborator, MamComment, MamMovie
 from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer, OscarEntrySereializer, MmamEntrySereializer
+from cahserver.serializers import MmaColabSereializer
 
 # Create your views here.
 
@@ -724,6 +725,61 @@ def delete_mam(request, pk):
             if MmamEntry.objects.filter(id=pk).exists():
                 count = MmamEntry.objects.get(id=pk).delete()
             return JsonResponse({'message': '{} entries were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the entry. Please check again!",
+                'white_cards': "[]",
+                'error': "Error" + + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+##### Coaborators
+
+@api_view(['GET'])
+def get_colabs(request):
+    if request.method == 'GET':
+        mamList = MamColaborator.objects.all()
+        mam_serializer = MmaColabSereializer(mamList, many=True)
+        response = {
+            'message': "Get all colaborators succefully",
+            'wlists': mam_serializer.data,
+            'error': ''
+        }
+        return JsonResponse(mam_serializer.data, safe=False)
+
+@api_view(['POST'])
+def create_colab(request):
+    if request.method == 'POST':
+        try: 
+            mam = JSONParser().parse(request)
+            mam_serialized = MmaColabSereializer(data=mam)
+            if mam_serialized.is_valid():
+                mam_serialized.save()
+                return JsonResponse(mam_serialized.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'wlits':"[]",
+                    'error': mam_serialized.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'wlists': "[]",
+                'error': "Having an exception! " + repr(ex)
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_colab(request, pk):
+    if request.method == 'DELETE':
+        try:
+            if MamColaborator.objects.filter(id=pk).exists():
+                count = MamColaborator.objects.get(id=pk).delete()
+            return JsonResponse({'message': '{} colaborator were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
         except Exception as ex:
             print(ex)
             error = {

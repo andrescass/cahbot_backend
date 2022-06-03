@@ -27,4 +27,7 @@ urlpatterns = [
     url(r'^api/mam/check$', csrf_exempt(views.check_mam)),
     url(r'^api/mam/newmam$', csrf_exempt(views.create_mam)),
     path('api/mam/delete_mam/<pk>', csrf_exempt(views.delete_mam)),
+    url(r'^api/mam/get_colabs$', csrf_exempt(views.get_colabs)),
+    url(r'^api/mam/newcolab$', csrf_exempt(views.create_colab)),
+    path('api/mam/delete_colab/<pk>', csrf_exempt(views.delete_colab)),
 ]
