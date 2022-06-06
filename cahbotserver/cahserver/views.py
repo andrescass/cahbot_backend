@@ -798,7 +798,7 @@ def get_movies(request):
         movie_serializer = MamMovieSerializer(movieList, many=True)
         response = {
             'message': "Get all movies succefully",
-            'wlists': mam_serializer.data,
+            'wlists': movie_serializer.data,
             'error': ''
         }
         return JsonResponse(mam_serializer.data, safe=False)
