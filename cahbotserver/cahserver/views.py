@@ -8,7 +8,7 @@ from random import sample
 
 from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry, MmamEntry, MamColaborator, MamComment, MamMovie
 from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer, OscarEntrySereializer, MmamEntrySereializer
-from cahserver.serializers import MmaColabSereializer
+from cahserver.serializers import MmaColabSereializer, MamMovieSerializer
 
 # Create your views here.
 
