@@ -788,3 +788,58 @@ def delete_colab(request, pk):
                 'error': "Error" + + repr(ex)
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+##### Movies
+
+@api_view(['GET'])
+def get_movies(request):
+    if request.method == 'GET':
+        movieList = MamColaborator.objects.all()
+        movie_serializer = MamMovieSereializer(movieList, many=True)
+        response = {
+            'message': "Get all movies succefully",
+            'wlists': mam_serializer.data,
+            'error': ''
+        }
+        return JsonResponse(mam_serializer.data, safe=False)
+
+@api_view(['POST'])
+def create_movie(request):
+    if request.method == 'POST':
+        try: 
+            mam = JSONParser().parse(request)
+            mam_serialized = MmaColabSereializer(data=mam)
+            if mam_serialized.is_valid():
+                mam_serialized.save()
+                return JsonResponse(mam_serialized.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'wlits':"[]",
+                    'error': mam_serialized.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'wlists': "[]",
+                'error': "Having an exception! " + repr(ex)
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_movie(request, pk):
+    if request.method == 'DELETE':
+        try:
+            if MamColaborator.objects.filter(id=pk).exists():
+                count = MamColaborator.objects.get(id=pk).delete()
+            return JsonResponse({'message': '{} colaborator were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the entry. Please check again!",
+                'white_cards': "[]",
+                'error': "Error" + + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
