@@ -794,7 +794,7 @@ def delete_colab(request, pk):
 @api_view(['GET'])
 def get_movies(request):
     if request.method == 'GET':
-        movieList = MamColaborator.objects.all()
+        movieList = MamMovie.objects.all()
         movie_serializer = MamMovieSerializer(movieList, many=True)
         response = {
             'message': "Get all movies succefully",
