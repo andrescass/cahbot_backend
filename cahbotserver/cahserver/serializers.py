@@ -95,6 +95,6 @@ class MmaColabSereializer(serializers.ModelSerializer):
 class MamMovieSerializer(serializers.ModelSerializer):
     mentions = MmaColabSereializer(many = True)
     class Meta:
-        model = MamMovieSerializer
+        model = MamMovie
         fields = '__all__'
         depth = 1
