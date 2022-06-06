@@ -807,16 +807,16 @@ def get_movies(request):
 def create_movie(request):
     if request.method == 'POST':
         try: 
-            mam = JSONParser().parse(request)
-            mam_serialized = MmaColabSereializer(data=mam)
-            if mam_serialized.is_valid():
-                mam_serialized.save()
-                return JsonResponse(mam_serialized.data, status=status.HTTP_201_CREATED)
+            movie = JSONParser().parse(request)
+            movie_serialized = MmaColabSereializer(data=movie)
+            if movie_serialized.is_valid():
+                movie_serialized.save()
+                return JsonResponse(movie_serialized.data, status=status.HTTP_201_CREATED)
             else:
                 error = {
                     'message':"Can Not upload successfully!",
                     'wlits':"[]",
-                    'error': mam_serialized.errors
+                    'error': movie_serialized.errors
                     }
                 return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
         except Exception as ex:
