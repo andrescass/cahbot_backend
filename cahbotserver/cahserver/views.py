@@ -801,7 +801,7 @@ def get_movies(request):
             'wlists': movie_serializer.data,
             'error': ''
         }
-        return JsonResponse(mam_serializer.data, safe=False)
+        return JsonResponse(movie_serializer.data, safe=False)
 
 @api_view(['POST'])
 def create_movie(request):
