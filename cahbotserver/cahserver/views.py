@@ -808,7 +808,7 @@ def create_movie(request):
     if request.method == 'POST':
         try: 
             movie = JSONParser().parse(request)
-            movie_serialized = MmaColabSereializer(data=movie)
+            movie_serialized = MamMovieSerializer(data=movie)
             if movie_serialized.is_valid():
                 mm = MamMovie(imdb_id = movie_serialized.validated_data['imdb_id'],
                 rank =movie_serialized.validated_data['rank'],
