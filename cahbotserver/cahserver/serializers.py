@@ -91,11 +91,10 @@ class MmaColabSereializer(serializers.ModelSerializer):
         model = MamColaborator
         fields = '__all__'
 
-
 class MamMovieSerializer(serializers.ModelSerializer):
     mentions_first = MmaColabSereializer(many = True)
     mentions_other = MmaColabSereializer(many = True)
-    review = serializers.CharField(read_only=True)
+    review = MamCommentSerializer(many = True, read_only=True)
 
     class Meta:
         model = MamMovie
