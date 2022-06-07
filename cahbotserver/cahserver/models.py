@@ -104,3 +104,4 @@ class MamComment(models.Model):
     text = models.CharField(max_length=2000, blank=True)
     autor = models.ForeignKey(MamColaborator, related_name='comment', on_delete=models.CASCADE)
     movie = models.ForeignKey(MamMovie, related_name='review', on_delete=models.CASCADE)
+    first_or_other = models.CharField(max_length=10, blank=True)

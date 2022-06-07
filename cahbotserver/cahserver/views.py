@@ -862,7 +862,7 @@ def delete_movie(request, pk):
 @api_view(['GET'])
 def get_revs(request):
     if request.method == 'GET':
-        reviewList = MamComment.objects.all().order_by('rank')
+        reviewList = MamComment.objects.all().order_by('first_or_other')
         review_serializer = MamCommentSerializer(reviewList, many=True)
         response = {
             'message': "Get all reviews succefully",
