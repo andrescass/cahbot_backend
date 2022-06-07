@@ -96,7 +96,7 @@ class MamCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MamComment
-        fields = ('text', 'first_or_other', 'autor')
+        fields = ('id', 'movie_imdb', 'text', 'first_or_other', 'autor')
 
 class MamMovieSerializer(serializers.ModelSerializer):
     mentions_first = MmaColabSereializer(many = True)

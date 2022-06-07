@@ -884,6 +884,7 @@ def create_rev(request):
                 #autor = MamColaborator.objects.get(name = review_serialized.validated_data['autor']['name'])
                 comment = MamComment(text = review_serialized.validated_data['text'],
                 first_or_other =review_serialized.validated_data['first_or_other'],
+                movie_imdb = review['movie']['imdb_id'],
                 movie = movie,
                 autor = autor)
                 comment.save()
