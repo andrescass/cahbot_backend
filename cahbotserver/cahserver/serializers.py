@@ -95,7 +95,7 @@ class MmaColabSereializer(serializers.ModelSerializer):
 class MamMovieSerializer(serializers.ModelSerializer):
     mentions_first = MmaColabSereializer(many = True)
     mentions_other = MmaColabSereializer(many = True)
-    review = serializers.RelatedField(many = True)
+    review = serializers.RelatedField(many = True, read_only=True)
 
     class Meta:
         model = MamMovie
