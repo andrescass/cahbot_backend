@@ -875,29 +875,23 @@ def get_revs(request):
 def create_rev(request):
     if request.method == 'POST':
         try: 
-            movie = JSONParser().parse(request)
-            movie_serialized = MamMovieSerializer(data=movie)
-            if movie_serialized.is_valid():
-                mm = MamMovie(imdb_id = movie_serialized.validated_data['imdb_id'],
-                rank =movie_serialized.validated_data['rank'],
-                points = movie_serialized.validated_data['points'])
-                mm.save()
-                for colab_f in movie_serialized.validated_data['mentions_first']:
-                    if MamColaborator.objects.filter(mail=colab_f['mail']).exists():
-                        m_colab_f = MamColaborator.objects.get(mail=colab_f['mail'])
-                        mm.mentions_first.add(m_colab_f)
-                for colab_o in movie_serialized.validated_data['mentions_other']:
-                    if MamColaborator.objects.filter(mail=colab_o['mail']).exists():
-                        m_colab_o = MamColaborator.objects.get(mail=colab_o['mail'])
-                        mm.mentions_other.add(m_colab_o)
-                mm.save()
-                ms = MamMovieSerializer(mm)
-                return JsonResponse(ms.data, status=status.HTTP_201_CREATED)
+            review = JSONParser().parse(request)
+            review_serialized = MamCommentSerializer(data=review)
+            if review_serialized.is_valid():
+                movie = MamMovie.objects.get(imdb_id = review_serialized.validated_data['movie']['imdb_id'])
+                autor = MamColaborator.objects.get(name = review_serialized.validated_data['autor']['name'])
+                comment = MamComment(text = review_serialized.validated_data['text'],
+                first_or_other =review_serialized.validated_data['first_or_other'],
+                movie = movie,
+                autor = autor)
+                comment.save()
+                cs = MamMovieSerializer(comment)
+                return JsonResponse(cs.data, status=status.HTTP_201_CREATED)
             else:
                 error = {
                     'message':"Can Not upload successfully!",
                     'wlits':"[]",
-                    'error': movie_serialized.errors
+                    'error': review_serialized.errors
                     }
                 return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
         except Exception as ex:
