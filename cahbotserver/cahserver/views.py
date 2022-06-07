@@ -818,6 +818,7 @@ def create_movie(request):
                     if MamColaborator.objects.filter(mail=colab['mail']).exists():
                         m_colab = MamColaborator.objects.get(mail=colab['mail'])
                         mm.mentions.add(m_colab)
+                mm.save()
                 ms = MamMovieSerializer(mm)
                 return JsonResponse(ms.data, status=status.HTTP_201_CREATED)
             else:
