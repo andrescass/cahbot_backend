@@ -887,7 +887,7 @@ def create_rev(request):
                 movie = movie,
                 autor = autor)
                 comment.save()
-                cs = MamMovieSerializer(comment)
+                cs = MamCommentSerializer(comment)
                 return JsonResponse(cs.data, status=status.HTTP_201_CREATED)
             else:
                 error = {
