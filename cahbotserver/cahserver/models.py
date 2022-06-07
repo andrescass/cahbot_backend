@@ -86,8 +86,8 @@ class MmamEntry(models.Model):
 
 class MamColaborator(models.Model):
     id = models.AutoField(primary_key = True)
-    name = models.CharField(max_length=300, unique=True, blank=False)
-    mail = models.CharField(max_length=300, unique=True, blank=False)
+    name = models.CharField(max_length=300, blank=True)
+    mail = models.CharField(max_length=300, blank=True)
 
     def __str__(self):
         return f'{self.name}'
