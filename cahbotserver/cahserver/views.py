@@ -810,8 +810,12 @@ def create_movie(request):
             movie = JSONParser().parse(request)
             movie_serialized = MmaColabSereializer(data=movie)
             if movie_serialized.is_valid():
-                movie_serialized.save()
-                return JsonResponse(movie_serialized.data, status=status.HTTP_201_CREATED)
+                mm = MamMovie(imdb_id = movie_serialized.validated_data['imdb_id'],
+                rank =movie_serialized.validated_data['rank'],
+                points = movie_serialized.validated_data['points'])
+                mm.save()
+                ms = MamMovieSerializer(mm)
+                return JsonResponse(ms.data, status=status.HTTP_201_CREATED)
             else:
                 error = {
                     'message':"Can Not upload successfully!",

@@ -96,7 +96,7 @@ class MamMovie(models.Model):
     imdb_id = models.CharField(max_length=30, primary_key=True, unique=True, blank=False)
     rank = models.IntegerField(blank=False, default=1)
     points = models.IntegerField(blank=False, default=1)
-    mentions = models.ManyToManyField(MamColaborator)
+    mentions = models.ManyToManyField(MamColaborator, blank=True, related_name='movie')
 
 class MamComment(models.Model):
     id = models.AutoField(primary_key = True)
