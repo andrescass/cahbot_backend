@@ -91,6 +91,13 @@ class MmaColabSereializer(serializers.ModelSerializer):
         model = MamColaborator
         fields = '__all__'
 
+class MamCommentSerializer(serializers.ModelSerializer):
+    autor = MmaColabSereializer(read_only = True)
+
+    class Meta:
+        model = MamComment
+        fields = ('text', 'first_or_other', 'autor')
+
 class MamMovieSerializer(serializers.ModelSerializer):
     mentions_first = MmaColabSereializer(many = True)
     mentions_other = MmaColabSereializer(many = True)
@@ -98,12 +105,4 @@ class MamMovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MamMovie
-        fields = '__all__'
-
-class MamCommentSerializer(serializers.ModelSerializer):
-    autor = MmaColabSereializer(read_only = True)
-    movie = MamMovieSerializer(read_only = True)
-
-    class Meta:
-        model = MamComment
         fields = '__all__'
