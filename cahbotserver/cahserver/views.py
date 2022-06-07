@@ -820,7 +820,7 @@ def create_movie(request):
                         mm.mentions_first.add(m_colab_f)
                 for colab_o in movie_serialized.validated_data['mentions_other']:
                     if MamColaborator.objects.filter(mail=colab_o['mail']).exists():
-                        m_colab_o = MamColaborator.objects.get(mail=colab['mail'])
+                        m_colab_o = MamColaborator.objects.get(mail=colab_o['mail'])
                         mm.mentions_other.add(m_colab_o)
                 mm.save()
                 ms = MamMovieSerializer(mm)
