@@ -102,6 +102,9 @@ class MamMovieSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MamCommentSerializer(serializers.ModelSerializer):
+    autor = MmaColabSereializer(read_only = True)
+    movie = MamMovieSerializer(read_only = True)
+
     class Meta:
         model = MamComment
         fields = '__all__'
