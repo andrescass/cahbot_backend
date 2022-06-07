@@ -93,7 +93,8 @@ class MmaColabSereializer(serializers.ModelSerializer):
 
 
 class MamMovieSerializer(serializers.ModelSerializer):
-    mentions = MmaColabSereializer(many = True)
+    mentions_first = MmaColabSereializer(many = True)
+    mentions_other = MmaColabSereializer(many = True)
     class Meta:
         model = MamMovie
         fields = '__all__'

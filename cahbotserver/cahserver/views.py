@@ -814,10 +814,14 @@ def create_movie(request):
                 rank =movie_serialized.validated_data['rank'],
                 points = movie_serialized.validated_data['points'])
                 mm.save()
-                for colab in movie_serialized.validated_data['mentions']:
+                for colab in movie_serialized.validated_data['mentions_first']:
                     if MamColaborator.objects.filter(mail=colab['mail']).exists():
                         m_colab = MamColaborator.objects.get(mail=colab['mail'])
-                        mm.mentions.add(m_colab)
+                        mm.mentions_first.add(m_colab)
+                for colab in movie_serialized.validated_data['mentions_other']:
+                    if MamColaborator.objects.filter(mail=colab['mail']).exists():
+                        m_colab = MamColaborator.objects.get(mail=colab['mail'])
+                        mm.mentions_other.add(m_colab)
                 mm.save()
                 ms = MamMovieSerializer(mm)
                 return JsonResponse(ms.data, status=status.HTTP_201_CREATED)
