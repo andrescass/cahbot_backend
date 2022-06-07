@@ -836,8 +836,8 @@ def create_movie(request):
 def delete_movie(request, pk):
     if request.method == 'DELETE':
         try:
-            if MamMovie.objects.filter(id=pk).exists():
-                count = MamMovie.objects.get(id=pk).delete()
+            if MamMovie.objects.filter(imdb_id=pk).exists():
+                count = MamMovie.objects.get(imdb_id=pk).delete()
             return JsonResponse({'message': '{} movie were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
         except Exception as ex:
             print(ex)
