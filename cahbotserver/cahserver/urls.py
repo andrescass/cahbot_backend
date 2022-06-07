@@ -33,4 +33,7 @@ urlpatterns = [
     url(r'^api/mam/get_movies$', csrf_exempt(views.get_movies)),
     url(r'^api/mam/newmovie$', csrf_exempt(views.create_movie)),
     path('api/mam/delete_movie/<pk>', csrf_exempt(views.delete_movie)),
+    url(r'^api/mam/get_revs$', csrf_exempt(views.get_revs)),
+    url(r'^api/mam/newrev$', csrf_exempt(views.create_rev)),
+    path('api/mam/delete_rev/<pk>', csrf_exempt(views.delete_rev)),
 ]

@@ -8,7 +8,7 @@ from random import sample
 
 from cahserver.models import BlackCard, WhiteCard, GameGroup, Player, ScoreEntry, FestMovie, WListEntry, OscarEntry, MmamEntry, MamColaborator, MamComment, MamMovie
 from cahserver.serializers import BlackCardSerializer, WhiteCardSerializer, GameGroupSerializer, PlayerSerializer, ScoreEntrySerializer, FestMovieSerializer, WListEntrySerializer, OscarEntrySereializer, MmamEntrySereializer
-from cahserver.serializers import MmaColabSereializer, MamMovieSerializer
+from cahserver.serializers import MmaColabSereializer, MamMovieSerializer, MamCommentSerializer
 
 # Create your views here.
 
@@ -848,6 +848,74 @@ def delete_movie(request, pk):
             if MamMovie.objects.filter(imdb_id=pk).exists():
                 count = MamMovie.objects.get(imdb_id=pk).delete()
             return JsonResponse({'message': '{} movie were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the entry. Please check again!",
+                'white_cards': "[]",
+                'error': "Error" + + repr(ex)
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+##### Reviews
+
+@api_view(['GET'])
+def get_revs(request):
+    if request.method == 'GET':
+        reviewList = MamComment.objects.all().order_by('rank')
+        review_serializer = MamCommentSerializer(reviewList, many=True)
+        response = {
+            'message': "Get all reviews succefully",
+            'wlists': review_serializer.data,
+            'error': ''
+        }
+        return JsonResponse(review_serializer.data, safe=False)
+
+@api_view(['POST'])
+def create_rev(request):
+    if request.method == 'POST':
+        try: 
+            movie = JSONParser().parse(request)
+            movie_serialized = MamMovieSerializer(data=movie)
+            if movie_serialized.is_valid():
+                mm = MamMovie(imdb_id = movie_serialized.validated_data['imdb_id'],
+                rank =movie_serialized.validated_data['rank'],
+                points = movie_serialized.validated_data['points'])
+                mm.save()
+                for colab_f in movie_serialized.validated_data['mentions_first']:
+                    if MamColaborator.objects.filter(mail=colab_f['mail']).exists():
+                        m_colab_f = MamColaborator.objects.get(mail=colab_f['mail'])
+                        mm.mentions_first.add(m_colab_f)
+                for colab_o in movie_serialized.validated_data['mentions_other']:
+                    if MamColaborator.objects.filter(mail=colab_o['mail']).exists():
+                        m_colab_o = MamColaborator.objects.get(mail=colab_o['mail'])
+                        mm.mentions_other.add(m_colab_o)
+                mm.save()
+                ms = MamMovieSerializer(mm)
+                return JsonResponse(ms.data, status=status.HTTP_201_CREATED)
+            else:
+                error = {
+                    'message':"Can Not upload successfully!",
+                    'wlits':"[]",
+                    'error': movie_serialized.errors
+                    }
+                return JsonResponse(error, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            print(ex)
+            exceptionError = {
+                'message': "Can Not upload successfully!",
+                'wlists': "[]",
+                'error': "Having an exception! " + repr(ex)
+                }
+            return JsonResponse(exceptionError, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['DELETE'])
+def delete_rev(request, pk):
+    if request.method == 'DELETE':
+        try:
+            if MamComment.objects.filter(id=pk).exists():
+                count = MamComment.objects.get(id=pk).delete()
+            return JsonResponse({'message': '{} comment were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
         except Exception as ex:
             print(ex)
             error = {
