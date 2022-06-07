@@ -876,10 +876,12 @@ def create_rev(request):
     if request.method == 'POST':
         try: 
             review = JSONParser().parse(request)
+            movie = MamMovie.objects.get(imdb_id = review['movie']['imdb_id'])
+            autor = MamColaborator.objects.get(name = review['autor']['name'])
             review_serialized = MamCommentSerializer(data=review)
             if review_serialized.is_valid():
-                movie = MamMovie.objects.get(imdb_id = review_serialized.validated_data['movie']['imdb_id'])
-                autor = MamColaborator.objects.get(name = review_serialized.validated_data['autor']['name'])
+                #movie = MamMovie.objects.get(imdb_id = review_serialized.validated_data['movie']['imdb_id'])
+                #autor = MamColaborator.objects.get(name = review_serialized.validated_data['autor']['name'])
                 comment = MamComment(text = review_serialized.validated_data['text'],
                 first_or_other =review_serialized.validated_data['first_or_other'],
                 movie = movie,
