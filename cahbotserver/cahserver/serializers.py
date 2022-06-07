@@ -105,7 +105,3 @@ class MamCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = MamComment
         fields = '__all__'
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['movie'] = MamMovieSerializer(instance.movie).data
-        return response

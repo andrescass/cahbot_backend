@@ -878,15 +878,14 @@ def create_rev(request):
             review = JSONParser().parse(request)
             review_serialized = MamCommentSerializer(data=review)
             if review_serialized.is_valid():
-                #movie = MamMovie.objects.get(imdb_id = review_serialized.validated_data['movie']['imdb_id'])
-                #autor = MamColaborator.objects.get(name = review_serialized.validated_data['autor']['name'])
-                #comment = MamComment(text = review_serialized.validated_data['text'],
-                #first_or_other =review_serialized.validated_data['first_or_other'],
-                #movie = movie,
-                #autor = autor)
-                #comment.save()
-                #cs = MamMovieSerializer(comment)
-                review_serialized.save()
+                movie = MamMovie.objects.get(imdb_id = review_serialized.validated_data['movie']['imdb_id'])
+                autor = MamColaborator.objects.get(name = review_serialized.validated_data['autor']['name'])
+                comment = MamComment(text = review_serialized.validated_data['text'],
+                first_or_other =review_serialized.validated_data['first_or_other'],
+                movie = movie,
+                autor = autor)
+                comment.save()
+                cs = MamMovieSerializer(comment)
                 return JsonResponse(cs.data, status=status.HTTP_201_CREATED)
             else:
                 error = {
