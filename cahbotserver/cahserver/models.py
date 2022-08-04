@@ -101,7 +101,7 @@ class MamMovie(models.Model):
 
 class MamComment(models.Model):
     id = models.AutoField(primary_key = True)
-    text = models.CharField(max_length=5000, blank=True)
+    text = models.CharField(max_length=10000, blank=True)
     autor = models.ForeignKey(MamColaborator, related_name='comment', on_delete=models.CASCADE)
     movie = models.ForeignKey(MamMovie, related_name='review', on_delete=models.CASCADE)
     movie_imdb = models.CharField(max_length=20, blank=True)
