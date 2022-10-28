@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/fest_movie/delete/<pk>', csrf_exempt(views.delete_movie)),
     path('api/user_wlist_seen/<pk>', csrf_exempt(views.set_seen)),
     url('api/fest_movies_del/delete_movies/', csrf_exempt(views.delete_movies)),
+    url('api/fest_movies_del/delete_cites/', csrf_exempt(views.delete_cites)),
     url(r'^api/oscalo/check$', csrf_exempt(views.check_oscalo)),
     url(r'^api/oscalo/newoscalo$', csrf_exempt(views.create_oscalo)),
     path('api/oscalo/delete_oscalo/<pk>', csrf_exempt(views.delete_oscalo)),

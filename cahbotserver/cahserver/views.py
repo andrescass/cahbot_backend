@@ -575,6 +575,21 @@ def delete_movies(request):
             }
             return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['DELETE'])
+def delete_cites(request):
+    if request.method == 'DELETE':
+        try:
+            count = WListEntry.objects.all().delete()
+            return JsonResponse({'message': '{} white cards were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as ex:
+            print(ex)
+            error = {
+                'message': "Fail! -> can NOT delete the cards. Please check again!",
+                'white_cards': "[]",
+                'error': "Error"
+            }
+            return JsonResponse(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 ################### Oscalos ###################
 
